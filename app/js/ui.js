@@ -1,21 +1,32 @@
 // ui: rendering for the capture forms and the captured log
 
-function renderThoughts(thoughts) {
+function renderThoughts(allThoughts, query) {
   const list = document.getElementById('thought-list');
   const emptyState = document.getElementById('empty-state');
+  const noResultsState = document.getElementById('no-results-state');
   const exportMarkdownBtn = document.getElementById('export-markdown-btn');
   const exportCsvBtn = document.getElementById('export-csv-btn');
-  list.innerHTML = '';
-  exportMarkdownBtn.disabled = thoughts.length === 0;
-  exportCsvBtn.disabled = thoughts.length === 0;
 
-  if (thoughts.length === 0) {
+  list.innerHTML = '';
+  exportMarkdownBtn.disabled = allThoughts.length === 0;
+  exportCsvBtn.disabled = allThoughts.length === 0;
+
+  if (allThoughts.length === 0) {
     emptyState.hidden = false;
+    noResultsState.hidden = true;
     return;
   }
   emptyState.hidden = true;
 
-  thoughts.forEach((thought) => {
+  const visible = searchThoughts(allThoughts, query);
+
+  if (visible.length === 0) {
+    noResultsState.hidden = false;
+    return;
+  }
+  noResultsState.hidden = true;
+
+  visible.forEach((thought) => {
     list.appendChild(renderThoughtItem(thought));
   });
 }

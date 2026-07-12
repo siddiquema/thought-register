@@ -2,7 +2,7 @@
 
 function init() {
   setMode('quick');
-  renderThoughts(getThoughts());
+  refreshLog();
 
   document.getElementById('mode-quick').addEventListener('click', () => setMode('quick'));
   document.getElementById('mode-structured').addEventListener('click', () => setMode('structured'));
@@ -12,6 +12,8 @@ function init() {
 
   document.getElementById('export-markdown-btn').addEventListener('click', exportThoughtsAsMarkdown);
   document.getElementById('export-csv-btn').addEventListener('click', exportThoughtsAsCsv);
+
+  document.getElementById('search-input').addEventListener('input', refreshLog);
 
   setupTopicToggle('quick-topic-toggle', 'quick-topic');
   setupTopicToggle('structured-topic-toggle', 'structured-topic');
@@ -51,7 +53,7 @@ function handleQuickSubmit(event) {
   saveThought({ type: 'quick', topic: topic || null, thought });
 
   resetCaptureForm(form, 'quick-topic-toggle', 'quick-topic');
-  renderThoughts(getThoughts());
+  refreshLog();
   showConfirmation('Saved.');
   document.getElementById('quick-thought').focus();
 }
@@ -72,7 +74,7 @@ function handleStructuredSubmit(event) {
   });
 
   resetCaptureForm(form, 'structured-topic-toggle', 'structured-topic');
-  renderThoughts(getThoughts());
+  refreshLog();
   showConfirmation('Saved.');
   document.getElementById('structured-observation').focus();
 }
@@ -81,6 +83,11 @@ function resetCaptureForm(form, topicToggleId, topicInputId) {
   form.reset();
   form.querySelectorAll('.capture-input').forEach((textarea) => autoGrow(textarea));
   collapseTopicToggle(topicToggleId, topicInputId);
+}
+
+function refreshLog() {
+  const query = document.getElementById('search-input').value;
+  renderThoughts(getThoughts(), query);
 }
 
 document.addEventListener('DOMContentLoaded', init);

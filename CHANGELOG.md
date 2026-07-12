@@ -10,6 +10,7 @@ All notable changes to this project are documented here.
 - Defined the capture data standard (`docs/capture-standard.md`).
 - Markdown export: an "Export Markdown" action in the Captured log downloads every saved thought as a single, human-readable `.md` file, oldest first, empty fields omitted (`app/js/export.js`).
 - CSV export: an "Export CSV" action next to Export Markdown downloads every saved thought as a single UTF-8 CSV (`ID, Type, Created At, Topic, Thought, Observation, Interpretation, Tags`), for use in Excel, Google Sheets, Python, Power BI, R, or any future tool. Documented in `docs/capture-standard.md` and illustrated in `examples/sample-export.csv`. CSV is a portability format, not storage — Markdown remains the preferred human-readable export.
+- Search: a single "Search your thoughts…" field above the Captured log filters results live, as-you-type, by case-insensitive substring match across every text field except `id` and `createdAt` (`app/js/search.js`). Read-only — never touches storage or either export. Shows "No matching thoughts found." when nothing matches; clearing the field returns to the full timeline. Documented in `docs/search.md`.
 
 ### Removed
 - `app/data/sample.csv`, a duplicate of `examples/sample-thoughts.csv` with inconsistent columns (flagged in the TR-001.1 audit).
