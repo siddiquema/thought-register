@@ -3,9 +3,11 @@
 function renderThoughts(thoughts) {
   const list = document.getElementById('thought-list');
   const emptyState = document.getElementById('empty-state');
-  const exportBtn = document.getElementById('export-btn');
+  const exportMarkdownBtn = document.getElementById('export-markdown-btn');
+  const exportCsvBtn = document.getElementById('export-csv-btn');
   list.innerHTML = '';
-  exportBtn.disabled = thoughts.length === 0;
+  exportMarkdownBtn.disabled = thoughts.length === 0;
+  exportCsvBtn.disabled = thoughts.length === 0;
 
   if (thoughts.length === 0) {
     emptyState.hidden = false;

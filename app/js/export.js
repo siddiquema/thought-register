@@ -1,4 +1,4 @@
-// export: convert captured thoughts into a downloadable Markdown file
+// export: convert captured thoughts into downloadable Markdown and CSV files
 
 function formatExportTimestamp(iso) {
   return new Date(iso).toISOString().slice(0, 16).replace('T', ' ');
@@ -37,6 +37,37 @@ function thoughtsToMarkdown(thoughts) {
   return [header, ...sections].join('\n\n---\n\n');
 }
 
+const CSV_COLUMNS = ['ID', 'Type', 'Created At', 'Topic', 'Thought', 'Observation', 'Interpretation', 'Tags'];
+
+function csvEscapeField(value) {
+  const str = value == null ? '' : String(value);
+  if (/[",\r\n]/.test(str)) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+}
+
+function thoughtToCsvRow(thought) {
+  const kind = thought.type === 'structured' ? 'Structured' : 'Quick';
+  const fields = [
+    thought.id,
+    kind,
+    thought.createdAt,
+    thought.topic || '',
+    thought.thought || '',
+    thought.observation || '',
+    thought.interpretation || '',
+    '', // Tags: not yet part of the data model; reserved for a future field.
+  ];
+  return fields.map(csvEscapeField).join(',');
+}
+
+function thoughtsToCsv(thoughts) {
+  const chronological = [...thoughts].reverse();
+  const rows = [CSV_COLUMNS.join(','), ...chronological.map(thoughtToCsvRow)];
+  return rows.join('\r\n');
+}
+
 function downloadFile(filename, content, mimeType) {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
@@ -56,4 +87,14 @@ function exportThoughtsAsMarkdown() {
   const markdown = thoughtsToMarkdown(thoughts);
   const filename = `thought-register-export-${new Date().toISOString().slice(0, 10)}.md`;
   downloadFile(filename, markdown, 'text/markdown');
+}
+
+function exportThoughtsAsCsv() {
+  const thoughts = getThoughts();
+  if (thoughts.length === 0) return;
+
+  // Leading BOM so Excel opens the UTF-8 file without mangling non-ASCII text.
+  const csv = '﻿' + thoughtsToCsv(thoughts);
+  const filename = `thought-register-export-${new Date().toISOString().slice(0, 10)}.csv`;
+  downloadFile(filename, csv, 'text/csv;charset=utf-8;');
 }
