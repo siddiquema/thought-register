@@ -166,11 +166,37 @@ main {
   opacity: 1;
 }
 
+.log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
 #log h2 {
   font-size: 1rem;
   color: var(--color-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.export-btn {
+  border: none;
+  background: none;
+  padding: 0.25rem 0;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  text-decoration: underline;
+}
+
+.export-btn:disabled {
+  color: var(--color-muted);
+  cursor: not-allowed;
+  text-decoration: none;
 }
 
 #thought-list {

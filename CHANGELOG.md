@@ -8,6 +8,7 @@ All notable changes to this project are documented here.
 - Project foundation and governance documents: README, MANIFESTO, VISION, ROADMAP, NON_GOALS, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE_DECISIONS.
 - Quick Capture and Structured Capture forms, backed by browser local storage (`app/js/storage.js`, `app/js/ui.js`, `app/js/app.js`, `app/index.html`, `app/css/styles.css`).
 - Defined the capture data standard (`docs/capture-standard.md`).
+- Markdown export: an "Export Markdown" action in the Captured log downloads every saved thought as a single, human-readable `.md` file, oldest first, empty fields omitted (`app/js/export.js`).
 
 ### Removed
 - `app/data/sample.csv`, a duplicate of `examples/sample-thoughts.csv` with inconsistent columns (flagged in the TR-001.1 audit).

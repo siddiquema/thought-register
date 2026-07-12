@@ -10,6 +10,8 @@ function init() {
   document.getElementById('quick-form').addEventListener('submit', handleQuickSubmit);
   document.getElementById('structured-form').addEventListener('submit', handleStructuredSubmit);
 
+  document.getElementById('export-btn').addEventListener('click', exportThoughtsAsMarkdown);
+
   setupTopicToggle('quick-topic-toggle', 'quick-topic');
   setupTopicToggle('structured-topic-toggle', 'structured-topic');
 

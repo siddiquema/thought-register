@@ -48,12 +48,16 @@
   </section>
 
   <section id="log">
-    <h2>Captured</h2>
+    <div class="log-header">
+      <h2>Captured</h2>
+      <button type="button" id="export-btn" class="export-btn" disabled>Export Markdown</button>
+    </div>
     <ul id="thought-list"></ul>
     <p id="empty-state" class="empty-state">Nothing captured yet.</p>
   </section>
 </main>
 <script src="js/storage.js"></script>
+<script src="js/export.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/app.js"></script>
 </body>

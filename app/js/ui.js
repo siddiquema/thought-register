@@ -3,7 +3,9 @@
 function renderThoughts(thoughts) {
   const list = document.getElementById('thought-list');
   const emptyState = document.getElementById('empty-state');
+  const exportBtn = document.getElementById('export-btn');
   list.innerHTML = '';
+  exportBtn.disabled = thoughts.length === 0;
 
   if (thoughts.length === 0) {
     emptyState.hidden = false;
