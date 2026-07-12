@@ -27,7 +27,7 @@ function init() {
   document.getElementById('quick-thought').addEventListener('keydown', (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
-      document.getElementById('quick-form').requestSubmit();
+      submitForm(document.getElementById('quick-form'));
     }
   });
 
@@ -37,10 +37,20 @@ function init() {
     document.getElementById(id).addEventListener('keydown', (event) => {
       if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
-        document.getElementById('structured-form').requestSubmit();
+        submitForm(document.getElementById('structured-form'));
       }
     });
   });
+}
+
+function submitForm(form) {
+  // requestSubmit() isn't available on Safari < 16; fall back to a plain
+  // submit event so Enter-to-save still works there.
+  if (typeof form.requestSubmit === 'function') {
+    form.requestSubmit();
+  } else {
+    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  }
 }
 
 function handleQuickSubmit(event) {

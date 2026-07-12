@@ -20,6 +20,13 @@ All notable changes to this project are documented here.
 - Quick Capture now saves on `Enter` (like sending a message); `Shift+Enter` inserts a line break. Structured Capture keeps `Enter` as a line break and saves on `Ctrl`/`Cmd+Enter`, since it's a more deliberate, multi-line entry.
 - Documented these interaction patterns in `docs/design-principles.md`.
 
+### Fixed — Release Review (RR-001)
+- `LICENSE` contained only the string "MIT License" with no actual license text. Replaced with the full, standard MIT license body.
+- CSV export had no protection against formula/CSV injection (CWE-1236): a Topic/Thought/Observation/Interpretation starting with `=`, `+`, `-`, or `@` would be interpreted as a formula by Excel/Sheets/LibreOffice. Fixed by prefixing such values with a single quote before escaping (`app/js/export.js`).
+- The `Enter`/`Ctrl+Enter` save shortcuts relied on `form.requestSubmit()`, unsupported on Safari < 16, where they silently failed. Added a fallback that dispatches a plain `submit` event when `requestSubmit` isn't available (`app/js/app.js`).
+- Completed the ARIA tabs pattern on the Quick/Structured mode toggle (`aria-controls`, `role="tabpanel"`, `aria-labelledby`) and added `aria-live="polite"` to the results list and both empty-state messages, so search result changes are announced to screen readers the same way the save confirmation already was.
+- Full findings in [docs/release-review-v0.1.md](docs/release-review-v0.1.md).
+
 ## v0.1.0
 
 ### Added

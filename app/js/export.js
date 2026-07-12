@@ -39,8 +39,15 @@ function thoughtsToMarkdown(thoughts) {
 
 const CSV_COLUMNS = ['ID', 'Type', 'Created At', 'Topic', 'Thought', 'Observation', 'Interpretation', 'Tags'];
 
+function neutralizeFormulaInjection(str) {
+  // A leading =, +, -, or @ makes Excel/Sheets/LibreOffice interpret the cell
+  // as a formula. Prefixing with a quote neutralizes it without changing the
+  // visible content once opened.
+  return /^[=+\-@]/.test(str) ? `'${str}` : str;
+}
+
 function csvEscapeField(value) {
-  const str = value == null ? '' : String(value);
+  const str = neutralizeFormulaInjection(value == null ? '' : String(value));
   if (/[",\r\n]/.test(str)) {
     return `"${str.replace(/"/g, '""')}"`;
   }

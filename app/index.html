@@ -13,11 +13,11 @@
 <main>
   <section id="capture">
     <div class="mode-toggle" role="tablist">
-      <button type="button" id="mode-quick" class="mode-tab active" role="tab" aria-selected="true">Quick</button>
-      <button type="button" id="mode-structured" class="mode-tab" role="tab" aria-selected="false">Structured</button>
+      <button type="button" id="mode-quick" class="mode-tab active" role="tab" aria-selected="true" aria-controls="quick-form">Quick</button>
+      <button type="button" id="mode-structured" class="mode-tab" role="tab" aria-selected="false" aria-controls="structured-form">Structured</button>
     </div>
 
-    <form id="quick-form" class="capture-form" novalidate>
+    <form id="quick-form" class="capture-form" novalidate role="tabpanel" aria-labelledby="mode-quick">
       <label for="quick-thought" class="visually-hidden">Thought</label>
       <textarea id="quick-thought" name="thought" class="capture-input" placeholder="Capture a thought…" rows="1"></textarea>
 
@@ -29,7 +29,7 @@
       </div>
     </form>
 
-    <form id="structured-form" class="capture-form" hidden novalidate>
+    <form id="structured-form" class="capture-form" hidden novalidate role="tabpanel" aria-labelledby="mode-structured">
       <label for="structured-observation" class="visually-hidden">Observation</label>
       <textarea id="structured-observation" name="observation" class="capture-input" placeholder="What did you observe?" rows="1"></textarea>
 
@@ -58,9 +58,9 @@
     <label for="search-input" class="visually-hidden">Search your thoughts</label>
     <input type="search" id="search-input" class="search-input" placeholder="Search your thoughts…">
 
-    <ul id="thought-list"></ul>
-    <p id="empty-state" class="empty-state">Nothing captured yet.</p>
-    <p id="no-results-state" class="empty-state" hidden>No matching thoughts found.</p>
+    <ul id="thought-list" aria-live="polite"></ul>
+    <p id="empty-state" class="empty-state" aria-live="polite">Nothing captured yet.</p>
+    <p id="no-results-state" class="empty-state" aria-live="polite" hidden>No matching thoughts found.</p>
   </section>
 </main>
 <script src="js/storage.js"></script>
