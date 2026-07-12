@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Changed
+- Moved application source (`index.html`, `css/`, `js/`, `manifest.json`, `service-worker.js`, `assets/`) from `app/` to the repository root, so GitHub Pages serves the live site at `https://siddiquema.github.io/thought-register/` directly instead of a `/app/` subpath. No functional change — same files, same relative paths between them, verified end-to-end after the move. See ADR-006 in [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md).
+- Added the live demo link to `README.md`.
+
 ## v0.1.0 - 2026-07-12
 
 **Capture Release.** Quick Capture, Structured Capture, Local Storage, Markdown Export, CSV Export, and Search — the six features that make up v0.1's scope, redefined during release review as the "Capture Release." Dark Mode and Installable PWA were originally scoped for v0.1 but were moved out rather than built in a rush: PWA is now v0.2, Dark Mode moved to the future enhancements list. See [ROADMAP.md](ROADMAP.md) and [docs/release-review-v0.1.md](docs/release-review-v0.1.md).

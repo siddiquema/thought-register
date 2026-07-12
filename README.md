@@ -6,6 +6,10 @@ Thought Register is an open-source, offline-first knowledge capture system. It e
 
 It is not a note-taking app, a PKM platform, or another Obsidian. See [NON_GOALS.md](NON_GOALS.md) for what this project deliberately avoids becoming.
 
+## Live Demo
+
+**[siddiquema.github.io/thought-register](https://siddiquema.github.io/thought-register/)** — runs entirely in your browser. Nothing is sent anywhere; everything you capture stays in that browser's local storage on that device.
+
 ## Why
 
 People lose valuable ideas because capturing them takes too much effort. Every design decision in this project is measured against one metric: the time from opening the app to saving a thought. Read the full reasoning in [MANIFESTO.md](MANIFESTO.md) and [VISION.md](VISION.md).

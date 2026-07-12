@@ -31,3 +31,9 @@ A short log of significant technical decisions and the reasoning behind them. Ne
 **Decision**: Ship as a Progressive Web App rather than separate native mobile/desktop apps.
 
 **Why**: A single PWA codebase covers desktop, Android, and iPhone without multiplying maintenance surface, keeping with Mobile First and Lightweight while avoiding app-store dependencies.
+
+## ADR-006: Application source lives at the repository root, not in `app/`
+
+**Decision**: `index.html`, `css/`, `js/`, `manifest.json`, `service-worker.js`, and `assets/` moved from `app/` to the repository root. Governance docs, `docs/`, `examples/`, `templates/`, and `media/` are unchanged.
+
+**Why**: GitHub Pages serves a repository from the branch root (or a `/docs` folder, already in use for project documentation). With the app under `app/`, the live site could only be reached at `.../thought-register/app/`, not `.../thought-register/`. Moving the source to root lets users visit the plain repository URL directly. A GitHub Actions build step to publish just `app/` as the Pages artifact was considered and rejected — it would add CI/build machinery this project deliberately doesn't have (see ADR-001), just to avoid a one-time file move.
