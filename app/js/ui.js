@@ -68,6 +68,33 @@ function showConfirmation(message) {
   showConfirmation.timer = setTimeout(() => el.classList.remove('visible'), 1500);
 }
 
+function autoGrow(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = `${textarea.scrollHeight}px`;
+}
+
+function setupTopicToggle(toggleId, inputId) {
+  const toggle = document.getElementById(toggleId);
+  const input = document.getElementById(inputId);
+
+  toggle.addEventListener('click', () => {
+    toggle.hidden = true;
+    input.hidden = false;
+    input.focus();
+  });
+
+  input.addEventListener('blur', () => {
+    if (!input.value.trim()) {
+      collapseTopicToggle(toggleId, inputId);
+    }
+  });
+}
+
+function collapseTopicToggle(toggleId, inputId) {
+  document.getElementById(toggleId).hidden = false;
+  document.getElementById(inputId).hidden = true;
+}
+
 function setMode(mode) {
   const isQuick = mode === 'quick';
   const quickForm = document.getElementById('quick-form');

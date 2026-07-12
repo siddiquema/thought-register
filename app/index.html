@@ -13,31 +13,35 @@
 <main>
   <section id="capture">
     <div class="mode-toggle" role="tablist">
-      <button type="button" id="mode-quick" class="mode-btn active" role="tab" aria-selected="true">Quick</button>
-      <button type="button" id="mode-structured" class="mode-btn" role="tab" aria-selected="false">Structured</button>
+      <button type="button" id="mode-quick" class="mode-tab active" role="tab" aria-selected="true">Quick</button>
+      <button type="button" id="mode-structured" class="mode-tab" role="tab" aria-selected="false">Structured</button>
     </div>
 
-    <form id="quick-form" class="capture-form">
-      <label for="quick-topic">Topic <span class="optional">(optional)</span></label>
-      <input type="text" id="quick-topic" name="topic" placeholder="Topic">
+    <form id="quick-form" class="capture-form" novalidate>
+      <label for="quick-thought" class="visually-hidden">Thought</label>
+      <textarea id="quick-thought" name="thought" class="capture-input" placeholder="Capture a thought…" rows="1"></textarea>
 
-      <label for="quick-thought">Thought</label>
-      <textarea id="quick-thought" name="thought" placeholder="What's on your mind?" required autofocus></textarea>
-
-      <button type="submit">Save</button>
+      <div class="capture-footer">
+        <button type="button" id="quick-topic-toggle" class="topic-toggle">+ Topic</button>
+        <label for="quick-topic" class="visually-hidden">Topic (optional)</label>
+        <input type="text" id="quick-topic" name="topic" class="topic-input" placeholder="Topic" hidden>
+        <button type="submit" class="save-btn">Save</button>
+      </div>
     </form>
 
-    <form id="structured-form" class="capture-form" hidden>
-      <label for="structured-topic">Topic <span class="optional">(optional)</span></label>
-      <input type="text" id="structured-topic" name="topic" placeholder="Topic">
+    <form id="structured-form" class="capture-form" hidden novalidate>
+      <label for="structured-observation" class="visually-hidden">Observation</label>
+      <textarea id="structured-observation" name="observation" class="capture-input" placeholder="What did you observe?" rows="1"></textarea>
 
-      <label for="structured-observation">Observation</label>
-      <textarea id="structured-observation" name="observation" placeholder="What did you observe?" required></textarea>
+      <label for="structured-interpretation" class="visually-hidden">Interpretation (optional)</label>
+      <textarea id="structured-interpretation" name="interpretation" class="capture-input capture-input-secondary" placeholder="What does it mean? (optional)" rows="1"></textarea>
 
-      <label for="structured-interpretation">Interpretation <span class="optional">(optional)</span></label>
-      <textarea id="structured-interpretation" name="interpretation" placeholder="What does it mean?"></textarea>
-
-      <button type="submit">Save</button>
+      <div class="capture-footer">
+        <button type="button" id="structured-topic-toggle" class="topic-toggle">+ Topic</button>
+        <label for="structured-topic" class="visually-hidden">Topic (optional)</label>
+        <input type="text" id="structured-topic" name="topic" class="topic-input" placeholder="Topic" hidden>
+        <button type="submit" class="save-btn">Save</button>
+      </div>
     </form>
 
     <p id="save-confirmation" class="confirmation" aria-live="polite"></p>
