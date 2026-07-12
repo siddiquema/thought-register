@@ -14,7 +14,7 @@ People lose valuable ideas because capturing them takes too much effort. Every d
 
 **Under 30 seconds** from open to save.
 
-## Version 0.1 Scope
+## Version 0.1 — Capture Release
 
 - Quick Capture
 - Structured Capture
@@ -22,8 +22,6 @@ People lose valuable ideas because capturing them takes too much effort. Every d
 - Markdown Export
 - CSV Export
 - Search
-- Dark Mode
-- Installable PWA
 
 Nothing more. See [ROADMAP.md](ROADMAP.md) for what comes after, and [NON_GOALS.md](NON_GOALS.md) for what never will.
 

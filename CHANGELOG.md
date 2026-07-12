@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## v0.1.0 - 2026-07-12
+
+**Capture Release.** Quick Capture, Structured Capture, Local Storage, Markdown Export, CSV Export, and Search — the six features that make up v0.1's scope, redefined during release review as the "Capture Release." Dark Mode and Installable PWA were originally scoped for v0.1 but were moved out rather than built in a rush: PWA is now v0.2, Dark Mode moved to the future enhancements list. See [ROADMAP.md](ROADMAP.md) and [docs/release-review-v0.1.md](docs/release-review-v0.1.md).
+
 ### Added
 - Project foundation and governance documents: README, MANIFESTO, VISION, ROADMAP, NON_GOALS, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE_DECISIONS.
 - Quick Capture and Structured Capture forms, backed by browser local storage (`app/js/storage.js`, `app/js/ui.js`, `app/js/app.js`, `app/index.html`, `app/css/styles.css`).
@@ -27,7 +31,7 @@ All notable changes to this project are documented here.
 - Completed the ARIA tabs pattern on the Quick/Structured mode toggle (`aria-controls`, `role="tabpanel"`, `aria-labelledby`) and added `aria-live="polite"` to the results list and both empty-state messages, so search result changes are announced to screen readers the same way the save confirmation already was.
 - Full findings in [docs/release-review-v0.1.md](docs/release-review-v0.1.md).
 
-## v0.1.0
+## v0.0.1 - 2026-07-12
 
 ### Added
-- Initial project structure.
+- Initial project scaffold (pre-development skeleton, superseded by v0.1.0 above).

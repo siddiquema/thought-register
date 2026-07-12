@@ -103,3 +103,7 @@ Two paths forward, both legitimate — this is a product decision, not an engine
 2. **Re-scope this release** — update `README.md`/`ROADMAP.md` to declare a smaller v0.1.0 (Capture + Search + Export only), move Dark Mode and PWA into a v0.1.1 or v0.2 milestone, and ship what's actually done today.
 
 I'm not recommending a version number to tag right now, since neither path has been chosen yet. Once one is, the six completed features are solid enough that the remaining work is either "finish the last two features" (path 1) or "update two documents" (path 2) — not a rebuild.
+
+## Resolution
+
+Path 2 was chosen. `README.md` and `ROADMAP.md` now define v0.1 as the **Capture Release** (Quick Capture, Structured Capture, Local Storage, Markdown Export, CSV Export, Search) — exactly the six features that were already built, tested, and approved. Installable PWA is now v0.2. Dark Mode moved to the Future Enhancements list, unscheduled. No code changed as part of this re-scoping — only `README.md`, `ROADMAP.md`, and `CHANGELOG.md`. **v0.1.0 is ready to release** under this corrected scope.

@@ -1,8 +1,8 @@
 # Roadmap
 
-Thought Register is built incrementally, one milestone at a time. Nothing below v0.1 is started until v0.1 is done.
+Thought Register is built incrementally, one milestone at a time. Nothing in a future milestone is started until the current one ships.
 
-## v0.1 — Capture (current)
+## v0.1 — Capture Release (shipped)
 
 - Quick Capture
 - Structured Capture
@@ -10,18 +10,32 @@ Thought Register is built incrementally, one milestone at a time. Nothing below 
 - Markdown Export
 - CSV Export
 - Search
-- Dark Mode
-- Installable PWA
 
-This is the entire v0.1 scope. Nothing more is built until this ships.
+This was the entire v0.1 scope, and it's complete. Dark Mode and Installable PWA were originally scoped here but were moved out during release review (see [docs/release-review-v0.1.md](docs/release-review-v0.1.md)) — neither was built, and shipping a "Capture Release" that does exactly what its name says was judged better than delaying release for unrelated features.
 
-## Beyond v0.1
+## v0.2 — Installable PWA
+
+- A valid web app manifest with real icons
+- A working service worker with an offline-caching strategy
+- An install flow, on desktop and mobile
+
+## Beyond v0.2
 
 Not yet scoped, not yet designed, and not started until a milestone is explicitly opened for them:
 
-- v0.2 — Search refinements
-- v0.3 — Export refinements
-- v0.4 — PWA hardening (offline reliability, install experience)
+- v0.3 — Search refinements
+- v0.4 — Export refinements
+
+## Future Enhancements
+
+Real ideas, wanted, but not yet scheduled to a version:
+
+- Dark Mode
+- A real onboarding / user guide
+- Graceful handling when local storage is full or unavailable
+- Real logo/icon assets and a favicon
+
+See [docs/release-review-v0.1.md](docs/release-review-v0.1.md) for the complete technical debt and future enhancements list from release review.
 
 ## Explicitly not on this roadmap
 
