@@ -1,0 +1,3 @@
+# Quick Capture
+- Topic
+- Thought
