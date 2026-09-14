@@ -2,11 +2,12 @@
 // transactions, and requests, so every other module can just await a value.
 
 const DB_NAME = 'thought-register';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const STORE_THOUGHTS = 'thoughts';
 const STORE_VERSIONS = 'thoughtVersions';
 const STORE_META = 'meta';
+const STORE_TOMBSTONES = 'tombstones';
 
 let dbPromise = null;
 
@@ -28,6 +29,12 @@ function openDb() {
       }
       if (!db.objectStoreNames.contains(STORE_META)) {
         db.createObjectStore(STORE_META, { keyPath: 'key' });
+      }
+      if (!db.objectStoreNames.contains(STORE_TOMBSTONES)) {
+        // Records a thought's id and deletion time so a sync merge can tell
+        // "never existed here" apart from "was deleted here" — otherwise an
+        // older copy from another device would resurrect it.
+        db.createObjectStore(STORE_TOMBSTONES, { keyPath: 'id' });
       }
     };
 

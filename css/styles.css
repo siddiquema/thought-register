@@ -271,6 +271,50 @@ main {
   font-size: 0.9rem;
 }
 
+/* OneDrive sync panel */
+
+.sync-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  flex-wrap: wrap;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  margin-bottom: var(--space);
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.sync-actions {
+  display: flex;
+  gap: 0.5rem 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sync-btn {
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sync-btn-secondary {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: none;
+  color: var(--color-text);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 /* Migration banner */
 
 .banner {

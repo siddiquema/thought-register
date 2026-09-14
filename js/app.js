@@ -11,6 +11,7 @@ async function init() {
   setMode('quick');
   await refreshLog();
   await renderRoute();
+  await initSyncUI();
 
   document.getElementById('mode-quick').addEventListener('click', () => setMode('quick'));
   document.getElementById('mode-structured').addEventListener('click', () => setMode('structured'));
@@ -89,6 +90,7 @@ async function handleQuickSubmit(event) {
   await refreshLog();
   showConfirmation('Saved.');
   document.getElementById('quick-thought').focus();
+  scheduleSync();
 }
 
 async function handleStructuredSubmit(event) {
@@ -110,6 +112,7 @@ async function handleStructuredSubmit(event) {
   await refreshLog();
   showConfirmation('Saved.');
   document.getElementById('structured-observation').focus();
+  scheduleSync();
 }
 
 function resetCaptureForm(form, topicToggleId, topicInputId) {
@@ -207,6 +210,65 @@ async function renderRoute() {
   } else {
     showLogView();
   }
+}
+
+// OneDrive sync is entirely opt-in: the panel stays hidden, and nothing
+// below ever runs, until this device has been configured with a client ID
+// and the user has explicitly signed in.
+async function initSyncUI() {
+  if (!isOneDriveConfigured()) return;
+
+  document.getElementById('sync-panel').hidden = false;
+  await initMsal();
+  renderSyncStatus();
+
+  document.getElementById('sync-sign-in-btn').addEventListener('click', () => signInToOneDrive());
+  document.getElementById('sync-sign-out-btn').addEventListener('click', () => signOutOfOneDrive());
+  document.getElementById('sync-now-btn').addEventListener('click', () => runSync());
+
+  if (getSignedInAccount()) {
+    await runSync();
+  }
+}
+
+function renderSyncStatus(message) {
+  const account = getSignedInAccount();
+  const statusText = document.getElementById('sync-status-text');
+  const signInBtn = document.getElementById('sync-sign-in-btn');
+  const syncNowBtn = document.getElementById('sync-now-btn');
+  const signOutBtn = document.getElementById('sync-sign-out-btn');
+
+  if (!account) {
+    statusText.textContent = message || 'Not signed in — thoughts stay on this device only.';
+    signInBtn.hidden = false;
+    syncNowBtn.hidden = true;
+    signOutBtn.hidden = true;
+    return;
+  }
+
+  signInBtn.hidden = true;
+  syncNowBtn.hidden = false;
+  signOutBtn.hidden = false;
+  statusText.textContent = message || `Signed in as ${account.username}`;
+}
+
+async function runSync() {
+  try {
+    const result = await syncWithOneDrive();
+    if (result.status === 'ok') {
+      renderSyncStatus(`Synced ${formatTimestamp(result.syncedAt)}`);
+      await refreshLog();
+    }
+  } catch (error) {
+    renderSyncStatus(`Sync failed: ${error.message}`);
+  }
+}
+
+let syncDebounceTimer = null;
+function scheduleSync() {
+  if (!isOneDriveConfigured() || !getSignedInAccount()) return;
+  clearTimeout(syncDebounceTimer);
+  syncDebounceTimer = setTimeout(runSync, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', init);
