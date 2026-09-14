@@ -11,6 +11,14 @@
   <h1>Thought Register</h1>
 </header>
 <main>
+  <div id="migration-banner" class="banner" hidden>
+    <p id="migration-banner-text"></p>
+    <div class="banner-actions">
+      <button type="button" id="migration-banner-backup" class="banner-btn">Download backup</button>
+      <button type="button" id="migration-banner-dismiss" class="banner-btn-secondary">Dismiss</button>
+    </div>
+  </div>
+
   <section id="capture">
     <div class="mode-toggle" role="tablist">
       <button type="button" id="mode-quick" class="mode-tab active" role="tab" aria-selected="true" aria-controls="quick-form">Quick</button>
@@ -53,20 +61,146 @@
       <div class="export-actions">
         <button type="button" id="export-markdown-btn" class="export-btn" disabled>Export Markdown</button>
         <button type="button" id="export-csv-btn" class="export-btn" disabled>Export CSV</button>
+        <button type="button" id="export-json-btn" class="export-btn" disabled>Export JSON</button>
+        <label for="import-json-input" class="export-btn import-btn">Import JSON</label>
+        <input type="file" id="import-json-input" accept="application/json" class="visually-hidden">
       </div>
     </div>
     <label for="search-input" class="visually-hidden">Search your thoughts</label>
     <input type="search" id="search-input" class="search-input" placeholder="Search your thoughts…">
 
+    <div class="filter-panel">
+      <button type="button" id="filter-toggle" class="filter-toggle" aria-expanded="false" aria-controls="filter-fields">Filters</button>
+      <div id="filter-fields" class="filter-fields" hidden>
+        <div class="filter-field">
+          <label for="filter-category">Category</label>
+          <select id="filter-category"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-lifecycle">Status</label>
+          <select id="filter-lifecycle"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-type">Type</label>
+          <select id="filter-type">
+            <option value="">Any</option>
+            <option value="quick">Quick</option>
+            <option value="structured">Structured</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-review-status">Review status</label>
+          <select id="filter-review-status">
+            <option value="">Any</option>
+            <option value="unreviewed">Unreviewed</option>
+            <option value="reviewed">Reviewed</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-importance">Importance</label>
+          <select id="filter-importance"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-confidence">Confidence</label>
+          <select id="filter-confidence"></select>
+        </div>
+        <div class="filter-field">
+          <label for="filter-project">Project</label>
+          <input type="text" id="filter-project" placeholder="Any">
+        </div>
+        <div class="filter-field">
+          <label for="filter-tags">Tags</label>
+          <input type="text" id="filter-tags" placeholder="comma, separated">
+        </div>
+        <div class="filter-field">
+          <label for="filter-date-from">From</label>
+          <input type="date" id="filter-date-from">
+        </div>
+        <div class="filter-field">
+          <label for="filter-date-to">To</label>
+          <input type="date" id="filter-date-to">
+        </div>
+        <button type="button" id="filter-clear" class="filter-clear">Clear filters</button>
+      </div>
+    </div>
+
     <ul id="thought-list" aria-live="polite"></ul>
     <p id="empty-state" class="empty-state" aria-live="polite">Nothing captured yet.</p>
     <p id="no-results-state" class="empty-state" aria-live="polite" hidden>No matching thoughts found.</p>
   </section>
+
+  <section id="detail" hidden>
+    <button type="button" id="detail-back" class="back-btn">&larr; Back</button>
+
+    <div class="detail-meta">
+      <span id="detail-type" class="detail-type"></span>
+      <span id="detail-timestamps" class="detail-timestamps"></span>
+    </div>
+
+    <form id="detail-form">
+      <label class="detail-label" for="detail-topic">Topic</label>
+      <input type="text" id="detail-topic" class="detail-input">
+
+      <div id="detail-quick-fields">
+        <label class="detail-label" for="detail-thought">Thought</label>
+        <textarea id="detail-thought" class="detail-input" rows="3"></textarea>
+      </div>
+
+      <div id="detail-structured-fields">
+        <label class="detail-label" for="detail-observation">Observation</label>
+        <textarea id="detail-observation" class="detail-input" rows="3"></textarea>
+        <label class="detail-label" for="detail-interpretation">Interpretation</label>
+        <textarea id="detail-interpretation" class="detail-input" rows="3"></textarea>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+          <label class="detail-label" for="detail-category">Category</label>
+          <select id="detail-category" class="detail-select"></select>
+        </div>
+        <div>
+          <label class="detail-label" for="detail-lifecycle">Lifecycle</label>
+          <select id="detail-lifecycle" class="detail-select"></select>
+        </div>
+        <div>
+          <label class="detail-label" for="detail-project">Project</label>
+          <input type="text" id="detail-project" class="detail-input">
+        </div>
+        <div>
+          <label class="detail-label" for="detail-tags">Tags</label>
+          <input type="text" id="detail-tags" class="detail-input" placeholder="comma, separated">
+        </div>
+        <div>
+          <label class="detail-label" for="detail-importance">Importance</label>
+          <select id="detail-importance" class="detail-select"></select>
+        </div>
+        <div>
+          <label class="detail-label" for="detail-confidence">Confidence</label>
+          <select id="detail-confidence" class="detail-select"></select>
+        </div>
+      </div>
+
+      <label class="detail-checkbox">
+        <input type="checkbox" id="detail-reviewed">
+        Reviewed
+      </label>
+
+      <div class="detail-actions">
+        <button type="submit" class="save-btn">Save Changes</button>
+        <button type="button" id="detail-delete" class="delete-btn">Delete</button>
+      </div>
+    </form>
+    <p id="detail-save-confirmation" class="confirmation" aria-live="polite"></p>
+  </section>
 </main>
+<script src="js/db.js"></script>
+<script src="js/taxonomy.js"></script>
 <script src="js/storage.js"></script>
-<script src="js/export.js"></script>
 <script src="js/search.js"></script>
+<script src="js/export.js"></script>
+<script src="js/router.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/detail.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

@@ -2,7 +2,19 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [Unreleased] — v2.0 Foundation
+
+Building toward Thought Register as a Personal Thinking OS: capture stays exactly as it was, but every thought can now be revisited, categorized, tracked through a lifecycle, and owned as real data. See the v2.0–v3.0 roadmap discussion for full scope.
+
+### Added
+- Storage engine migrated from a single `localStorage` array to IndexedDB (`js/db.js`, `js/storage.js`), with an automatic one-time migration of existing v0.1 data. The original `localStorage` entry is never deleted — it stays behind as a safety net.
+- A one-time migration banner offering an immediate JSON backup download after upgrading.
+- Edit and delete for captured thoughts — neither existed before. Every edit records a version snapshot (`thoughtVersions` store), laying the groundwork for a future evolution-history view.
+- A thought detail view (`js/detail.js`, `#/thought/:id`), reachable by clicking any entry in the log.
+- New per-thought fields, all optional and set only from the detail view — never on the capture screen: Category (Observation/Idea/Question/Hypothesis/Decision/Lesson Learned/Reflection/Experiment/Opportunity/Problem/Other), Lifecycle (Captured/Reviewing/Researching/Planning/In Progress/Completed/Dropped/Archived, defaulting to Captured), Tags, Project, Importance (1–5), Confidence (1–5), and a Reviewed flag.
+- Faceted search: filter the log by category, lifecycle, type, review status, importance, confidence, project, tags, and date range, in addition to the existing free-text search.
+- JSON export and import (`js/export.js`) — a full-fidelity backup/restore format including every thought and its edit history, upserted by ID so re-importing is harmless.
+- Markdown and CSV export extended with the new fields; CSV's `Tags` column (previously always blank) is now populated, and `Category` through `Last Reviewed At` are appended after it, preserving the existing column-order contract (see `docs/capture-standard.md`).
 
 ### Changed
 - Moved application source (`index.html`, `css/`, `js/`, `manifest.json`, `service-worker.js`, `assets/`) from `app/` to the repository root, so GitHub Pages serves the live site at `https://siddiquema.github.io/thought-register/` directly instead of a `/app/` subpath. No functional change — same files, same relative paths between them, verified end-to-end after the move. See ADR-006 in [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md).

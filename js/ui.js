@@ -1,15 +1,17 @@
 // ui: rendering for the capture forms and the captured log
 
-function renderThoughts(allThoughts, query) {
+function renderThoughts(allThoughts, filters) {
   const list = document.getElementById('thought-list');
   const emptyState = document.getElementById('empty-state');
   const noResultsState = document.getElementById('no-results-state');
   const exportMarkdownBtn = document.getElementById('export-markdown-btn');
   const exportCsvBtn = document.getElementById('export-csv-btn');
+  const exportJsonBtn = document.getElementById('export-json-btn');
 
   list.innerHTML = '';
   exportMarkdownBtn.disabled = allThoughts.length === 0;
   exportCsvBtn.disabled = allThoughts.length === 0;
+  exportJsonBtn.disabled = allThoughts.length === 0;
 
   if (allThoughts.length === 0) {
     emptyState.hidden = false;
@@ -18,7 +20,7 @@ function renderThoughts(allThoughts, query) {
   }
   emptyState.hidden = true;
 
-  const visible = searchThoughts(allThoughts, query);
+  const visible = filterThoughts(allThoughts, filters);
 
   if (visible.length === 0) {
     noResultsState.hidden = false;
@@ -35,28 +37,56 @@ function renderThoughtItem(thought) {
   const item = document.createElement('li');
   item.className = 'thought-item';
 
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'thought-item-btn';
+  button.addEventListener('click', () => navigateToThought(thought.id));
+
   const meta = document.createElement('div');
   meta.className = 'thought-meta';
   meta.textContent = `${thought.type === 'structured' ? 'Structured' : 'Quick'} · ${formatTimestamp(thought.createdAt)}`;
-  item.appendChild(meta);
+  button.appendChild(meta);
+
+  const badges = renderThoughtBadges(thought);
+  if (badges) button.appendChild(badges);
 
   if (thought.topic) {
     const topic = document.createElement('div');
     topic.className = 'thought-topic';
     topic.textContent = thought.topic;
-    item.appendChild(topic);
+    button.appendChild(topic);
   }
 
   if (thought.type === 'structured') {
-    item.appendChild(renderField('Observation', thought.observation));
+    button.appendChild(renderField('Observation', thought.observation));
     if (thought.interpretation) {
-      item.appendChild(renderField('Interpretation', thought.interpretation));
+      button.appendChild(renderField('Interpretation', thought.interpretation));
     }
   } else {
-    item.appendChild(renderField(null, thought.thought));
+    button.appendChild(renderField(null, thought.thought));
   }
 
+  item.appendChild(button);
   return item;
+}
+
+function renderThoughtBadges(thought) {
+  const badgeValues = [];
+  if (thought.category) badgeValues.push({ text: thought.category, className: 'badge-category' });
+  if (thought.lifecycle && thought.lifecycle !== 'Captured') badgeValues.push({ text: thought.lifecycle, className: 'badge-lifecycle' });
+  (thought.tags || []).forEach((tag) => badgeValues.push({ text: tag, className: 'badge-tag' }));
+
+  if (badgeValues.length === 0) return null;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'thought-badges';
+  badgeValues.forEach(({ text, className }) => {
+    const span = document.createElement('span');
+    span.className = `badge ${className}`;
+    span.textContent = text;
+    wrap.appendChild(span);
+  });
+  return wrap;
 }
 
 function renderField(label, value) {
@@ -128,4 +158,27 @@ function setMode(mode) {
     ? document.getElementById('quick-thought')
     : document.getElementById('structured-observation');
   focusTarget.focus();
+}
+
+function populateSelect(select, options, { includeBlank, blankLabel } = {}) {
+  select.innerHTML = '';
+  if (includeBlank) {
+    const opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = blankLabel || 'Any';
+    select.appendChild(opt);
+  }
+  options.forEach((value) => {
+    const opt = document.createElement('option');
+    opt.value = value;
+    opt.textContent = value;
+    select.appendChild(opt);
+  });
+}
+
+function parseTags(value) {
+  return value
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 }
