@@ -104,6 +104,7 @@ async function handleDetailSubmit(event) {
   fillDetailForm(updated);
   showDetailConfirmation('Saved.');
   await refreshLog();
+  scheduleSync();
 }
 
 async function handleDetailDelete() {
@@ -115,6 +116,7 @@ async function handleDetailDelete() {
   currentDetailId = null;
   await refreshLog();
   navigateToLog();
+  scheduleSync();
 }
 
 function showDetailConfirmation(message) {

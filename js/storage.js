@@ -128,9 +128,17 @@ async function updateThought(id, changes, changeNote) {
 async function deleteThought(id) {
   await idbDelete(STORE_THOUGHTS, id);
   await idbDeleteAllByIndex(STORE_VERSIONS, 'thoughtId', id);
+  // Recorded even for a purely local delete: if this device ever syncs to
+  // OneDrive later, the merge needs to know this id was deleted here rather
+  // than treating it as "never seen" and pulling it back in from elsewhere.
+  await idbPut(STORE_TOMBSTONES, { id, deletedAt: new Date().toISOString() });
 }
 
 async function getThoughtVersions(id) {
   const versions = await idbGetAllByIndex(STORE_VERSIONS, 'thoughtId', id);
   return versions.sort((a, b) => a.versionNumber - b.versionNumber);
+}
+
+async function getTombstones() {
+  return idbGetAll(STORE_TOMBSTONES);
 }
